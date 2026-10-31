@@ -1,17 +1,10 @@
 # Generated from flutter-build.yml: Windows x64 only, unsigned, no release publish.
 name: Windows x64 build (Vietnamese IME fix)
 on:
-  workflow_dispatch:
-    inputs:
-      upload-artifact:
-        type: boolean
-        default: true
-      upload-tag:
-        type: string
-        default: vn-ime
-      publish-update-metadata:
-        type: boolean
-        default: false
+  workflow_dispatch: null
+  push:
+    branches:
+    - vn-ime-1.5.0
 env:
   SCITER_RUST_VERSION: '1.75'
   RUST_VERSION: '1.75'
@@ -24,7 +17,7 @@ env:
   ANDROID_FLUTTER_VERSION: 3.24.5
   FLUTTER_WINDOWS_ARM_VERSION: 3.44.9
   FLUTTER_ELINUX_VERSION: 3.16.9
-  TAG_NAME: ${{ inputs.upload-tag }}
+  TAG_NAME: ${{ 'vn-ime' }}
   VCPKG_BINARY_SOURCES: clear;x-gha,readwrite
   VCPKG_COMMIT_ID: 9e593bb18ea69cc5095e012465dcd675a822ed0d
   VCPKG_CMAKE_VERSION: 4.3.0
@@ -61,7 +54,7 @@ jobs:
         - target: windows-2022
           platform: x64
     with:
-      upload-artifact: ${{ inputs.upload-artifact }}
+      upload-artifact: ${{ true }}
       target: ${{ matrix.job.target }}
       configuration: Release
       platform: ${{ matrix.job.platform }}
@@ -171,7 +164,7 @@ jobs:
       run: "runner_res=$(find . -name \"Runner.res\");\nif [ \"$runner_res\" == \"\" ]; then\n  echo \"Runner.res: not found\";\nelse\n  echo \"Runner.res: $runner_res\";\n  cp $runner_res ./libs/portable/Runner.res;\n  echo \"list ./libs/portable/Runner.res\";\n  ls -l ./libs/portable/Runner.res;\nfi\n"
     - name: Download RustDeskTempTopMostWindow artifacts
       uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
-      if: ${{ inputs.upload-artifact }}
+      if: ${{ true }}
       with:
         name: ${{ matrix.job.arch == 'aarch64' && 'topmostwindow-artifacts-ARM64' || 'topmostwindow-artifacts-x64' }}
         path: ./rustdesk
