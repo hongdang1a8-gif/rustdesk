@@ -244,3 +244,4 @@ jobs:
         name: rustdesk-vn-ime-windows-x86_64
         path: ./SignOutput/rustdesk-*
         if-no-files-found: error
+        retention-days: 7

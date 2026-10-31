@@ -131,8 +131,11 @@ class OrderedSender {
   }
 }
 
-/// The bridge is used where text must be forwarded as characters: Windows,
-/// Flutter as the input source ("Input source 2") and Translate mode.
+/// The bridge is used on Windows with Flutter as the input source ("Input
+/// source 2"), where Flutter delivers input-method text, in Map (the default)
+/// and Translate mode. Input source 1 grabs keys with a low-level hook before
+/// the input method sees them, so there is nothing to forward there; legacy
+/// mode has its own key path.
 bool shouldUseImeTextBridge({
   required bool isWindows,
   required bool inputSourceFlutter,
@@ -142,7 +145,7 @@ bool shouldUseImeTextBridge({
 }) =>
     isWindows &&
     inputSourceFlutter &&
-    keyboardMode == 'translate' &&
+    (keyboardMode == 'map' || keyboardMode == 'translate') &&
     keyboardPerm &&
     !viewOnly;
 

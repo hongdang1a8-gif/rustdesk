@@ -121,14 +121,16 @@ void main() {
           viewOnly: viewOnly,
         );
 
-    test('on for Windows + Input source 2 + Translate mode', () {
+    test('on for Windows + Input source 2, in Translate and in Map mode', () {
       expect(use(), isTrue);
+      // Map mode is the default and is stored per peer: requiring Translate
+      // would mean switching it for every remote device.
+      expect(use(keyboardMode: 'map'), isTrue);
     });
 
     test('off everywhere else', () {
       expect(use(isWindows: false), isFalse);
       expect(use(inputSourceFlutter: false), isFalse);
-      expect(use(keyboardMode: 'map'), isFalse);
       expect(use(keyboardMode: 'legacy'), isFalse);
       expect(use(keyboardPerm: false), isFalse);
       expect(use(viewOnly: true), isFalse);
